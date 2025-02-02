@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../componet/curd.css';
 import Studentlist from '../componet/Studentlist';
+import StudentAdd from '../componet/StudentAdd';
 
 export default function Home() {
     const [student, setstudent] = useState();
@@ -11,7 +12,7 @@ export default function Home() {
     const fetchStudent = async () => {
         console.log("React api call");
         try {
-            let response = await fetch('http://localhost/collageapi/v1/retrive.php');
+            let response = await fetch(`http://localhost/collageapi/v1/retrive.php`);
             let data = await response.json();
             if (data.status === 1) {
                 console.log(data.resData);
@@ -19,7 +20,6 @@ export default function Home() {
             }
         } catch (error) {
             console.error('error retriveing  student:', error);
-
 
         }
 
@@ -39,14 +39,30 @@ export default function Home() {
         } catch (error) {
             console.error('error deleting student:', error);
 
-
         }
-
     };
+    //CREATE
+    const addStudent = async (stdData) => {
+        const response = fetch(`http://localhost/collageapi/v1/create.php`, {
+            method: 'post',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(stdData)
+
+        });
+        if (response.ok) {
+            fetchStudent();
+        }
+    }
 
     return (
         <div>
-            <Studentlist displyStudentData={student} deletesStudentData={deleteStudent} />
+            <>
+                <StudentAdd createStudent={addStudent} />
+                <Studentlist displyStudentData={student} deletesStudentData={deleteStudent} />
+            </>
+
         </div>
     )
 }

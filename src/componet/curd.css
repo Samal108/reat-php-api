@@ -18,3 +18,11 @@ h3 {
     background-color: brown;
     color: aliceblue;
 }
+
+.inputform {
+    width: 50%;
+    margin-left: 25%;
+    padding-bottom: 10px;
+    overflow: auto;
+
+}
